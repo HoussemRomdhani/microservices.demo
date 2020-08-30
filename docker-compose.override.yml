@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  
+  bookstoredb:
+    container_name: bookstoredb
+    ports:
+      - "1445:1433"
+    environment:
+      SA_PASSWORD: "Banana100"
+      ACCEPT_EULA: "Y"
+
+  book.store.api:
+    container_name: bookStoreApp
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionString=Server=bookstoredb;Database=BooksStoreDb001;Integrated Security=False;User Id=sa;Password=Banana100;MultipleActiveResultSets=True;"
+    depends_on:
+      - bookstoredb
+    volumes:
+      - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+      - ${HOME}/.aspnet/https:/root/.aspnet/https/
+    ports:
+      - "8000:80"
