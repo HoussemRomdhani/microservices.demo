@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+
+  bookstoredb:
+    image: mcr.microsoft.com/mssql/server
+
+  book.store.api:
+    image: ${DOCKER_REGISTRY-}bookstoreapi
+    build:
+      context: .
+      dockerfile: src/book.store.api/Dockerfile
